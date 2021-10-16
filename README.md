@@ -1,6 +1,4 @@
-# Kraken Brigade
-
-​
+# Tetris
 
 ## Description
 
