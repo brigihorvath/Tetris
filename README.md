@@ -91,11 +91,11 @@ Definition of the different states and their transition (transition functions)
 
 ​
 
-- main - buildDom
-- main - buildSplashScreen
-- main - addEventListener
-- main - buildGameScreen
-- main - buildGameOverScreen
+- index - buildDom
+- index - buildSplashScreen
+- index - addEventListener
+- index - buildGameScreen
+- index - buildGameOverScreen
 - game - starLoop
 - game - clearCanvas
 - game - updateCanvas
