@@ -1,0 +1,192 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 1 rem = 10px */
+html {
+  font-size: 62.5%;
+}
+
+/* Remove default padding */
+ul[class],
+ol[class] {
+  padding: 0;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  /* font-family: 'Bungee Shade', cursive; */
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* Remove list styles on ul, ol elements with a class attribute */
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Natural flow and rhythm in articles by default */
+article > * + * {
+  margin-top: 1em;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+.overlay {
+  position: fixed;
+  display: block;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  display: none;
+  transition: opacity 0.5s ease-out;
+  opacity: 0;
+
+  /* cursor: pointer; */
+}
+
+.start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  height: 50vh;
+  background-image: linear-gradient(
+    110.3deg,
+    rgba(73, 93, 109, 1) 4.3%,
+    rgba(49, 55, 82, 1) 96.7%
+  );
+  border-radius: 15px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 7rem;
+  color: white;
+  margin: 1rem 0;
+}
+
+.tetris-img__overlay {
+  width: 20%;
+  margin: 2rem auto;
+}
+
+.start-button {
+  display: inline-block;
+  margin: 1rem auto;
+  /* background-image: linear-gradient(
+    110.3deg,
+    rgba(73, 93, 109, 1) 4.3%,
+    rgba(49, 55, 82, 1) 96.7%
+  ); */
+  background-color: rgba(32, 38, 57, 1);
+
+  font-size: 2rem;
+  padding: 0.2rem 5rem;
+  border-radius: 12px;
+  border: none;
+  /* border: 1px dashed white; */
+  color: white;
+  font-family: 'Space Mono', monospace;
+  box-shadow: 1px 1px 5px #888888;
+}
+
+.start-button:active {
+  transform: translate(0, 1px);
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.board {
+  width: 33.3%;
+  height: 80vh;
+  border: 3px solid rgb(69, 82, 126);
+  margin: 3rem auto;
+  border-radius: 20px;
+}
+
+.branding,
+.scores {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 33.3%;
+  font-size: 4rem;
+}
+
+.tetris-img {
+  width: 50%;
+  border-radius: 50%;
+}
+
+.fa-2 {
+  transform: rotate(90deg);
+}
+
+.fa-3 {
+  transform: rotate(180deg);
+}
+
+.fa-4 {
+  transform: rotate(270deg);
+}
