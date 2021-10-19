@@ -1,3 +1,5 @@
+import Game from './game.mjs';
+
 function buildDom(html) {
   const main = document.querySelector('.container .board');
   main.innerHTML = html;
@@ -25,17 +27,25 @@ function buildGameScreen() {
 
   buildDom(`
         <section class="game-screen">
-          <canvas></canvas>
+          <canvas id="tetris-canvas"></canvas>
         </section>  
       `);
 
-  const width = document.querySelector('.game-screen').offsetWidth;
-  const height = document.querySelector('.game-screen').offsetHeight;
-
-  const canvasElement = document.querySelector('canvas');
+  const canvasElement = document.querySelector('#tetris-canvas');
+  const ctx = canvasElement.getContext('2d');
+  const height = document.querySelector('.board').offsetHeight;
+  const blockSize = height / 20;
+  const game = new Game(canvasElement);
+  const width = blockSize * 10;
 
   canvasElement.setAttribute('width', width);
   canvasElement.setAttribute('height', height);
+
+  // Scale blocks
+  ctx.scale(blockSize, blockSize);
+  console.log(canvasElement.width, blockSize, width, height);
+  // console.table will show us the 2D array as a table
+  console.table(game.getZeroArray());
 }
 
 const init = () => {

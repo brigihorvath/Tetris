@@ -159,8 +159,14 @@ h1 {
 .board {
   width: 33.3%;
   height: 80vh;
-  border: 3px solid rgb(69, 82, 126);
+  /* border: 3px solid rgb(69, 82, 126); */
   margin: 3rem auto;
+  display: flex;
+  justify-content: center;
+}
+
+#tetris-canvas {
+  border: 3px solid rgb(69, 82, 126);
   border-radius: 20px;
 }
 
