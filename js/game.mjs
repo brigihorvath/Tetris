@@ -22,8 +22,14 @@ class Game {
         this.tetromino.accelerate();
         this.clearCanvas();
         this.tetromino.draw();
+        console.log('tetromino.y: ' + this.tetromino.y);
+        console.log();
       }
-      if (this.tetromino.y === 0) {
+      if (
+        this.tetromino.y + this.tetromino.shape.length ===
+        this.canvas.height / this.blockSize
+      ) {
+        console.log('tetromino down');
         this.fillUpArray();
         console.table(this.zeroArr);
       } else {
@@ -56,9 +62,10 @@ class Game {
 
   fillUpArray() {
     const x = this.tetromino.x;
-    const y = this.teromino.y;
-    this.tetromino.shape.forEach(row, (i) => {
-      this.tetromino.shape.forEach((el, elIndex) => {
+    const y = this.tetromino.y;
+    this.tetromino.shape.forEach((row, i) => {
+      row.forEach((el, elIndex) => {
+        console.log(x, y, i, elIndex);
         this.zeroArr[y + i][x + elIndex] = el;
       });
     });
