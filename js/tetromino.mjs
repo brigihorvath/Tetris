@@ -25,9 +25,13 @@ class Tetromino {
     });
   }
   rotate() {
-    this.shape = this.shape[0].map((val, index) =>
-      this.shape.map((row) => row[index]).reverse()
-    );
+    // check if it doesn't go out while rotating
+    // console.log(this.shape.x, this.shape.length);
+    if (this.x + this.shape.length <= this.canvas.blockWidth) {
+      this.shape = this.shape[0].map((val, index) =>
+        this.shape.map((row) => row[index]).reverse()
+      );
+    }
   }
 
   setPosition(direction) {
