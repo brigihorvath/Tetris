@@ -16,25 +16,23 @@ class Game {
     let start = 0;
     this.tetromino = new Tetromino(this.canvas, this.blockSize);
     const loop = (now) => {
+      this.clearCanvas();
+      this.drawZeroArr();
+      this.tetromino.draw();
       if (now - last >= 1000) {
         last = now;
-        console.log('Loop OK');
         this.tetromino.accelerate();
-        this.clearCanvas();
-        this.tetromino.draw();
-        console.log('tetromino.y: ' + this.tetromino.y);
-        console.log();
       }
       if (
         this.tetromino.y + this.tetromino.shape.length ===
         this.canvas.height / this.blockSize
       ) {
-        console.log('tetromino down');
         this.fillUpArray();
-        console.table(this.zeroArr);
-      } else {
-        window.requestAnimationFrame(loop);
+        this.clearCanvas();
+        this.drawZeroArr();
+        this.tetromino = new Tetromino(this.canvas, this.blockSize);
       }
+      window.requestAnimationFrame(loop);
     };
     window.requestAnimationFrame(loop);
   }
@@ -43,6 +41,20 @@ class Game {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
+  // draw the board with the already placed tetrominos
+  drawZeroArr() {
+    // Maybe refactor
+    // The same as the tetromino draw() function
+    this.ctx.fillStyle = 'blue';
+    this.zeroArr.forEach((arr, i) => {
+      arr.forEach((el, index) => {
+        if (el > 0) {
+          this.ctx.fillRect(index, i, 1, 1);
+        }
+      });
+    });
+  }
+  // create the initial zero array
   getZeroArray() {
     const emptyArr = [];
     // creation of a 2D array to check if the board's fields are taken
@@ -59,7 +71,7 @@ class Game {
     // fill(y) => what the elements will contain
     // return new Array(this.rowCount).fill(new Array(this.columnCount).fill(0));
   }
-
+  // fill up the zero Array with the tetrominos, that are already in their places
   fillUpArray() {
     const x = this.tetromino.x;
     const y = this.tetromino.y;
@@ -70,6 +82,8 @@ class Game {
       });
     });
   }
+
+  checkIfEmpty() {}
 }
 
 export default Game;

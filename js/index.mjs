@@ -8,13 +8,6 @@ function buildDom(html) {
 function buildSplashScreen() {
   document.querySelector('.overlay').style.opacity = '1';
   document.querySelector('.overlay').style.display = 'block';
-  //   document.querySelector('.overlay').style.visibility = 'visible';
-  //   document.querySelector('.overlay').style.opacity = '1';
-  //   buildDom(`
-  //         <section class="splash-screen">
-  //           <button>Start</button>
-  //         </section>
-  //       `);
   const startButton = document.querySelector('button');
   startButton.addEventListener('click', buildGameScreen);
 }
@@ -43,24 +36,16 @@ function buildGameScreen() {
 
   // Scale blocks
   ctx.scale(blockSize, blockSize);
-  console.log(canvasElement.width, blockSize, width, height);
-
+  //   console.log(canvasElement.width, blockSize, width, height);
   // console.table will show us the 2D array as a table
-  console.table(game.getZeroArray());
+  //   console.table(game.getZeroArray());
   game.startLoop();
-  game.tetromino.draw();
-
-  const keys = {
-    ArrowLeft: -1,
-    ArrowRight: +1,
-  };
 
   const moveTetromino = function (event) {
     if (event.code === 'ArrowLeft') game.tetromino.setPosition(-1);
     if (event.code === 'ArrowRight') game.tetromino.setPosition(+1);
     if (event.code === 'ArrowDown') game.tetromino.accelerate();
-    // game.tetromino.checkBoard(blockSize);
-    // console.log(game.tetromino.setPosition);
+    if (event.code === 'ArrowUp') game.tetromino.rotate();
     game.clearCanvas();
     game.tetromino.draw();
   };
