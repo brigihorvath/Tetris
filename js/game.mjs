@@ -15,7 +15,8 @@ class Game {
   startLoop() {
     let last = 0;
     let start = 0;
-    this.tetromino = new Tetromino(this.canvas, this.blockSize);
+    this.tetromino = new Tetromino(this.canvas, this.blockSize, this.zeroArr);
+    this.tetromino.setShapeAndColor();
     const loop = (now) => {
       this.clearCanvas();
       this.drawZeroArr();
@@ -25,15 +26,21 @@ class Game {
         this.tetromino.accelerate();
       }
       // if the Tetromino is at the bottom of the canvas
+      // or touches another tetromino
       if (
         this.tetromino.y + this.tetromino.shape.length ===
-        this.canvas.height / this.blockSize
+          this.canvas.height / this.blockSize ||
+        !this.tetromino.checkIfEmpty()
       ) {
-        console.log(this.checkIfEmpty());
         this.fillUpArray();
         this.clearCanvas();
         this.drawZeroArr();
-        this.tetromino = new Tetromino(this.canvas, this.blockSize);
+        this.tetromino = new Tetromino(
+          this.canvas,
+          this.blockSize,
+          this.zeroArr
+        );
+        this.tetromino.setShapeAndColor();
       }
       if (!this.isGameOver) {
         window.requestAnimationFrame(loop);
@@ -50,7 +57,7 @@ class Game {
   drawZeroArr() {
     // Maybe refactor
     // The same as the tetromino draw() function
-    this.ctx.fillStyle = 'blue';
+    this.ctx.fillStyle = 'grey';
     this.zeroArr.forEach((arr, i) => {
       arr.forEach((el, index) => {
         if (el > 0) {
@@ -91,33 +98,6 @@ class Game {
         }
       });
     });
-  }
-
-  // Is this in a better place in the game.mjs????
-  checkIfEmpty() {
-    return this.tetromino.shape.every((arr, y) =>
-      arr.every(
-        (el, x) =>
-          this.zeroArr[this.tetromino.y + y][this.tetromino.x + x] === 0
-      )
-    );
-    // I LEAVE THIS HERE FOR TESTING
-    // this.tetromino.shape.forEach((arr, y) =>
-    //   arr.forEach((el, x) => {
-    //     console.log(
-    //       `${x},${y}: ${
-    //         this.zeroArr[this.tetromino.y + y][this.tetromino.x + x]
-    //       }`
-    //     );
-    //     console.log(
-    //       `currentPos: tetro.y: ${this.tetromino.y} tetro.x: ${
-    //         this.tetromino.x
-    //       }  zeroArry: ${this.tetromino.y + y} zeroArrx:
-    //             ${this.tetromino.x + x}`
-    //     );
-    //   })
-    // );
-    // console.table(this.zeroArr);
   }
 }
 

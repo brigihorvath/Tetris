@@ -1,17 +1,28 @@
+import ShapeFactory from './shapeFactory.mjs';
+
 class Tetromino {
-  constructor(canvas, blockSize) {
+  constructor(canvas, blockSize, zeroArray) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.speed = 1;
-    this.color = 'blue';
-    this.shape = [
-      [1, 1, 1],
-      [0, 1, 0],
-    ];
+    this.color;
+    // this.shape = [
+    //   [1, 1, 1],
+    //   [0, 1, 0],
+    // ];
+    this.shape;
     this.x = 3;
     this.y = 0;
     this.blockSize = blockSize;
     this.canvas.blockWidth = this.canvas.width / this.blockSize;
+    this.zeroArr = zeroArray;
+  }
+
+  setShapeAndColor() {
+    const shapeFactory = new ShapeFactory();
+    const shapeObj = shapeFactory.randomShape;
+    this.shape = shapeObj.shape;
+    this.color = shapeObj.color;
   }
 
   draw() {
@@ -46,6 +57,7 @@ class Tetromino {
       );
       this.shape = newShape;
       console.log(this.shape);
+      return this;
     }
 
     // SOLUTION FOR MATRIX ROTATION FROM STACKOVERFLOW
@@ -66,11 +78,15 @@ class Tetromino {
     } else if (direction === +1 && this.checkBoardRightEdge()) {
       this.x = this.x + direction;
     }
-    console.log('this.x: ', this.x);
+    // console.log('this.x: ', this.x);
+    // givin back the tetromino to test if it is OK to move there
+    return this;
   }
 
   accelerate() {
     if (this.checkBoardBottom()) this.y = this.y + 1;
+    console.log('accelerate');
+    return this;
   }
 
   // to check if the move is valid or not
@@ -95,6 +111,31 @@ class Tetromino {
       return false;
     }
     return true;
+  }
+
+  // checks for every element of the SHAPE that it is at an empty space or not
+  // in the zeroArray
+  checkIfEmpty() {
+    // console.log(tetromino);
+    return this.shape.every((arr, y) =>
+      arr.every((el, x) =>
+        // only checking the elements that are bigger than zero
+        el > 0 ? this.zeroArr[this.y + y + 1][this.x + x] === 0 : true
+      )
+    );
+    // I LEAVE THIS HERE FOR TESTING
+    // this.shape.forEach((arr, y) =>
+    //   arr.forEach((el, x) => {
+    //     console.log(`${x},${y}: ${this.zeroArr[this.y + y][this.x + x]}`);
+    //     console.log(
+    //       `currentPos: tetro.y: ${this.y} tetro.x: ${this.x}  zeroArry: ${
+    //         this.y + y
+    //       } zeroArrx:
+    //             ${this.x + x}`
+    //     );
+    //   })
+    // );
+    // console.table(this.zeroArr);
   }
 }
 

@@ -36,7 +36,9 @@ dd {
 
 /* Set core body defaults */
 body {
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
@@ -166,7 +168,7 @@ h1 {
 }
 
 #tetris-canvas {
-  border: 3px solid rgb(69, 82, 126);
+  border: 3px solid #232c4b;
   border-radius: 20px;
 }
 
