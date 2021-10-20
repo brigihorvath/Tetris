@@ -29,7 +29,7 @@ function buildGameScreen() {
   const height = document.querySelector('.board').offsetHeight;
   const blockSize = height / 20;
   const game = new Game(canvasElement, blockSize);
-  const width = blockSize * 12;
+  const width = blockSize * 10;
 
   canvasElement.setAttribute('width', width);
   canvasElement.setAttribute('height', height);
@@ -50,7 +50,14 @@ function buildGameScreen() {
     game.tetromino.draw();
   };
 
+  const stop = function () {
+    game.isGameOver = true;
+  };
+
   document.addEventListener('keydown', moveTetromino);
+
+  const stopButton = document.querySelector('.btn-stop');
+  stopButton.addEventListener('click', stop);
 }
 
 const init = () => {
