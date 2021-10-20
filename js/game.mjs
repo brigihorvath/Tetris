@@ -34,6 +34,7 @@ class Game {
       ) {
         this.fillUpArray();
         this.clearCanvas();
+        console.log(this.deleteFullRow());
         this.drawZeroArr();
         this.tetromino = new Tetromino(
           this.canvas,
@@ -98,6 +99,16 @@ class Game {
         }
       });
     });
+  }
+
+  deleteFullRow() {
+    this.zeroArr.forEach((arr, i) => {
+      if (!arr.includes(0)) {
+        this.zeroArr.splice(i, 1);
+        this.zeroArr.unshift(new Array(this.columnCount).fill(0));
+      }
+    });
+    return this.zeroArr;
   }
 }
 
