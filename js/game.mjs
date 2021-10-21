@@ -33,6 +33,16 @@ class Game {
           this.canvas.height / this.blockSize ||
         !this.tetromino.checkIfEmpty(this.tetromino.shape, 0, 1)
       ) {
+        if (this.tetromino.nextMoveLeft || this.tetromino.nextMoveRight) {
+          console.log(
+            this.tetromino.nextMoveLeft,
+            this.tetromino.nextMoveRight
+          );
+          this.tetromino.x += this.tetromino.nextMoveLeft
+            ? this.tetromino.nextMoveLeft
+            : this.tetromino.nextMoveRight;
+          this.tetromino.draw();
+        }
         this.fillUpArray();
         this.clearCanvas();
         this.deleteFullRow();
@@ -113,6 +123,8 @@ class Game {
     this.zeroArr.forEach((arr, i) => {
       if (!arr.includes(0)) {
         this.score += 100;
+        this.setScore();
+        console.log(this.score);
         this.zeroArr.splice(i, 1);
         this.zeroArr.unshift(new Array(this.columnCount).fill(0));
       }
@@ -124,6 +136,12 @@ class Game {
     if (this.zeroArr[0].includes(1)) {
       this.isGameOver = true;
     }
+  }
+
+  // wouldn't it be in a better place in index.mjs
+  // But how????
+  setScore() {
+    document.querySelector('.scores').textContent = this.score;
   }
 }
 

@@ -34,7 +34,6 @@ function buildGameScreen() {
 
   canvasElement.setAttribute('width', width);
   canvasElement.setAttribute('height', height);
-  scores.textContent = game.score;
 
   // Scale blocks
   ctx.scale(blockSize, blockSize);
@@ -46,8 +45,16 @@ function buildGameScreen() {
   const moveTetromino = function (event) {
     if (event.code === 'ArrowLeft') game.tetromino.setPosition(-1);
     if (event.code === 'ArrowRight') game.tetromino.setPosition(+1);
-    if (event.code === 'ArrowDown') game.tetromino.accelerate();
-    if (event.code === 'ArrowUp') game.tetromino.rotate();
+    if (event.code === 'ArrowDown') {
+      game.tetromino.accelerate();
+      game.tetromino.nextMoveLeft = 0;
+      game.tetromino.nextMoveRight = 0;
+    }
+    if (event.code === 'ArrowUp') {
+      game.tetromino.rotate();
+      game.tetromino.nextMoveLeft = 0;
+      game.tetromino.nextMoveRight = 0;
+    }
     game.clearCanvas();
     game.tetromino.draw();
   };

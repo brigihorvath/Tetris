@@ -12,6 +12,12 @@ class Tetromino {
     this.blockSize = blockSize;
     this.canvas.blockWidth = this.canvas.width / this.blockSize;
     this.zeroArr = zeroArray;
+    // nextMoveLeft and nextMoveRight are used to slip the tertromino to place
+    // if we (reachTheBottom OR reach the top of another tetromino)
+    // AND in the previous states we couldn't go right or left
+    // it moves the tetromino just before it fills it up in the zero array
+    this.nextMoveLeft = false;
+    this.nextMoveRight = false;
   }
 
   // we create here the random objects from the shapeFactory
@@ -76,36 +82,55 @@ class Tetromino {
   setPosition(direction) {
     if (
       direction === -1 &&
-      this.checkBoardLeftEdge() &&
+      this.checkBoardLeftEdge(this.x) &&
       this.checkIfEmpty(this.shape, -1)
     ) {
+      this.nextMoveRight = 0;
       this.x = this.x + direction;
     } else if (
       direction === +1 &&
-      this.checkBoardRightEdge() &&
+      this.checkBoardRightEdge(this.x) &&
       this.checkIfEmpty(this.shape, 1)
     ) {
+      this.nextMoveLeft = 0;
       this.x = this.x + direction;
+    }
+
+    if (
+      direction === -1 &&
+      this.checkBoardLeftEdge(thix.x - 1) &&
+      this.checkIfEmpty(this.shape, -1, 1)
+    ) {
+      this.nextMoveLeft = direction;
+    }
+    if (
+      direction === 1 &&
+      this.checkBoardRightEdge(this.x + 1) &&
+      this.checkIfEmpty(this.shape, 1, 1)
+    ) {
+      this.nextMoveRight = direction;
     }
   }
 
   accelerate() {
     if (this.checkBoardBottom() && this.checkIfEmpty(this.shape, 0, 1)) {
+      this.y = this.y + 1;
     }
-    this.y = this.y + 1;
   }
 
   // to check if the move is valid or not
-  checkBoardRightEdge() {
+  // need to pass in x as a parameter
+  // because when I wanna check the next state I need another x
+  checkBoardRightEdge(x) {
     const shapeLength = this.shape[0].length;
-    if (this.x + shapeLength === this.canvas.blockWidth) {
+    if (x + shapeLength === this.canvas.blockWidth) {
       return false;
     }
     return true;
   }
 
-  checkBoardLeftEdge() {
-    if (this.x <= 0) {
+  checkBoardLeftEdge(x) {
+    if (x <= 0) {
       return false;
     }
     return true;
