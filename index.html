@@ -16,7 +16,7 @@
   </head>
   <body>
     <div class="overlay">
-      <div class="start">
+      <!-- <div class="start">
         <img
           src="./img/tetris-icon-12.jpg"
           alt="Tetris"
@@ -24,17 +24,24 @@
         />
         <h1>TETRIS</h1>
         <button type="button" class="start-button">START</button>
-      </div>
+      </div> -->
     </div>
     <div class="container">
       <div class="branding">
         <h2>TETRIS</h2>
         <img src="./img/tetris-icon-12.jpg" alt="Tetris" class="tetris-img" />
       </div>
-      <div class="board"></div>
+      <div class="board">
+        <section class="game-screen">
+          <canvas id="tetris-canvas"></canvas>
+        </section>
+      </div>
       <div class="scores-container">
         <h2>SCORES:</h2>
         <p class="scores">0</p>
+        <h2>LEVEL:</h2>
+        <p class="level">1</p>
+
         <i class="fas fa-caret-square-right"></i>
         <i class="fas fa-caret-square-right fa-2"></i>
         <i class="fas fa-caret-square-right fa-3"></i>

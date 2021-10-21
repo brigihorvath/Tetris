@@ -95,7 +95,8 @@ select {
   /* cursor: pointer; */
 }
 
-.start {
+.start,
+.restart {
   display: flex;
   flex-direction: column;
   align-items: center;

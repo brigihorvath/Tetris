@@ -1,11 +1,20 @@
 import Game from './game.mjs';
 
 function buildDom(html) {
-  const main = document.querySelector('.container .board');
-  main.innerHTML = html;
+  const overlay = document.querySelector('.overlay');
+  overlay.innerHTML = html;
 }
 
 function buildSplashScreen() {
+  buildDom(`<div class="start">
+    <img
+      src="./img/tetris-icon-12.jpg"
+      alt="Tetris"
+      class="tetris-img__overlay"
+    />
+    <h1>TETRIS</h1>
+    <button type="button" class="start-button">START</button>
+  </div>`);
   document.querySelector('.overlay').style.opacity = '1';
   document.querySelector('.overlay').style.display = 'block';
   const startButton = document.querySelector('button');
@@ -18,28 +27,32 @@ function buildGameScreen() {
     document.querySelector('.overlay').style.display = 'none';
   }, 500);
 
-  buildDom(`
-        <section class="game-screen">
-          <canvas id="tetris-canvas"></canvas>
-        </section>  
-      `);
+  //   buildDom(`
+  //     <section class="game-screen">
+  //     <canvas id="tetris-canvas"></canvas>
+  //     </section>
+  //     `);
 
   const canvasElement = document.querySelector('#tetris-canvas');
   const ctx = canvasElement.getContext('2d');
   const scores = document.querySelector('.scores');
   const height = document.querySelector('.board').offsetHeight;
   const blockSize = height / 20;
-  const game = new Game(canvasElement, blockSize);
   const width = blockSize * 10;
-
   canvasElement.setAttribute('width', width);
   canvasElement.setAttribute('height', height);
-
-  // Scale blocks
+  // Scale blocks to 1 * 1 size
   ctx.scale(blockSize, blockSize);
   //   console.log(canvasElement.width, blockSize, width, height);
   // console.table will show us the 2D array as a table
   //   console.table(game.getZeroArray());
+
+  // I am passing the blocksize, because I want to do the game responsive
+  // I am not sure it is going to work
+  // Have to think it over in the design phase
+  const game = new Game(canvasElement, blockSize);
+  game.gameOver(buildGameOverScreen);
+
   game.startLoop();
 
   const moveTetromino = function (event) {
@@ -70,8 +83,20 @@ function buildGameScreen() {
 }
 
 function buildGameOverScreen() {
+  buildDom(`<div class="restart">
+    <img
+      src="./img/tetris-icon-12.jpg"
+      alt="Tetris"
+      class="tetris-img__overlay"
+    />
+    <h1>GAME OVER</h1>
+    <h2>Your points:</h2>
+    <p class="game-over-scores"></p>
+    <button type="button" class="start-button">RESTART</button>
+  </div>`);
   document.querySelector('.overlay').style.opacity = '1';
   document.querySelector('.overlay').style.display = 'block';
+  document.querySelector('.game-over-scores').textContent = this.score;
   const startButton = document.querySelector('button');
   startButton.addEventListener('click', buildGameScreen);
 }

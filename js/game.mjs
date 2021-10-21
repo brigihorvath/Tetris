@@ -15,6 +15,7 @@ class Game {
     this.score = 0;
     this.speed = 1000;
     this.levels = new Levels();
+    this.level;
   }
 
   startLoop() {
@@ -28,7 +29,6 @@ class Game {
       if (now - last >= this.speed) {
         last = now;
         this.tetromino.accelerate();
-        console.log(this.tetromino.nextMoveLeft, this.tetromino.nextMoveRight);
       }
       // if the Tetromino is at the bottom of the canvas
       // or touches another tetromino
@@ -50,6 +50,7 @@ class Game {
           this.tetromino.x++;
         this.tetromino.draw();
         this.fillUpArray();
+        this.setIsGameOver();
         this.clearCanvas();
         this.deleteFullRow();
         this.drawZeroArr();
@@ -59,13 +60,13 @@ class Game {
           this.zeroArr
         );
         this.tetromino.setShapeAndColor();
-        this.gameOver();
       }
 
       if (this.isGameOver) {
         this.clearCanvas();
+        // this.tetromino = {};
         cancelAnimationFrame(this.animationLoopId);
-        return;
+        this.onGameOver();
       }
       if (!this.isGameOver) {
         this.animationLoopId = window.requestAnimationFrame(loop);
@@ -139,16 +140,26 @@ class Game {
     return this.zeroArr;
   }
 
-  gameOver() {
-    if (this.zeroArr[0].includes(1)) {
-      this.isGameOver = true;
-    }
+  setLevel() {
+    this.level = this.levels.currentLevel;
   }
 
   // wouldn't it be in a better place in index.mjs
   // But how????
   setScore() {
+    this.setLevel();
     document.querySelector('.scores').textContent = this.score;
+    document.querySelector('.level').textContent = this.level;
+  }
+
+  setIsGameOver() {
+    if (this.zeroArr[0].includes(1)) {
+      this.isGameOver = true;
+    }
+  }
+
+  gameOver(callback) {
+    this.onGameOver = callback;
   }
 }
 

@@ -96,6 +96,8 @@ class Tetromino {
       this.nextMoveRight = 0;
       this.nextMoveLeft = 0;
       this.x = this.x + direction;
+      // We need more else if s, because we want to make the player be able
+      // to move the tetromino
     } else if (
       direction === -1 &&
       this.checkBoardLeftEdge(this.x - 1) &&
