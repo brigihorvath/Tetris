@@ -6,10 +6,6 @@ class Tetromino {
     this.ctx = canvas.getContext('2d');
     this.speed = 1;
     this.color;
-    // this.shape = [
-    //   [1, 1, 1],
-    //   [0, 1, 0],
-    // ];
     this.shape;
     this.x = 3;
     this.y = 0;
@@ -18,6 +14,8 @@ class Tetromino {
     this.zeroArr = zeroArray;
   }
 
+  // we create here the random objects from the shapeFactory
+  // we get the shape and the color from here
   setShapeAndColor() {
     const shapeFactory = new ShapeFactory();
     const shapeObj = shapeFactory.randomShape;
@@ -25,6 +23,8 @@ class Tetromino {
     this.color = shapeObj.color;
   }
 
+  // we have to fill the shapes up with color
+  // only those ones that's value is not zero
   draw() {
     this.ctx.fillStyle = this.color;
     this.shape.forEach((arr, i) => {
@@ -42,6 +42,7 @@ class Tetromino {
     // create a new array with that many rows as many columns we had
     // only rotate if the rotated width (which is currently the shape.length)
     // plus the current coordinate is a lower value than the right edge of the canvas
+
     if (this.x + this.shape.length <= this.canvas.blockWidth) {
       const newShape = this.shape[0].map((el, oldX) =>
         // fill up the rows with that many elements as many rows we had
@@ -55,9 +56,9 @@ class Tetromino {
           return newElement;
         })
       );
-      this.shape = newShape;
-      console.log(this.shape);
-      return this;
+      if (this.checkIfEmpty(newShape)) {
+        this.shape = newShape;
+      }
     }
 
     // SOLUTION FOR MATRIX ROTATION FROM STACKOVERFLOW
@@ -73,20 +74,25 @@ class Tetromino {
   }
 
   setPosition(direction) {
-    if (direction === -1 && this.checkBoardLeftEdge()) {
+    if (
+      direction === -1 &&
+      this.checkBoardLeftEdge() &&
+      this.checkIfEmpty(this.shape, -1)
+    ) {
       this.x = this.x + direction;
-    } else if (direction === +1 && this.checkBoardRightEdge()) {
+    } else if (
+      direction === +1 &&
+      this.checkBoardRightEdge() &&
+      this.checkIfEmpty(this.shape, 1)
+    ) {
       this.x = this.x + direction;
     }
-    // console.log('this.x: ', this.x);
-    // givin back the tetromino to test if it is OK to move there
-    return this;
   }
 
   accelerate() {
-    if (this.checkBoardBottom()) this.y = this.y + 1;
-    console.log('accelerate');
-    return this;
+    if (this.checkBoardBottom() && this.checkIfEmpty(this.shape, 0, 1)) {
+    }
+    this.y = this.y + 1;
   }
 
   // to check if the move is valid or not
@@ -115,12 +121,14 @@ class Tetromino {
 
   // checks for every element of the SHAPE that it is at an empty space or not
   // in the zeroArray
-  checkIfEmpty() {
-    // console.log(tetromino);
-    return this.shape.every((arr, y) =>
+  // the shape is needed as a parameter because of the rotation
+  checkIfEmpty(shape, directionX = 0, directionY = 0) {
+    return shape.every((arr, y) =>
       arr.every((el, x) =>
         // only checking the elements that are bigger than zero
-        el > 0 ? this.zeroArr[this.y + y + 1][this.x + x] === 0 : true
+        el > 0
+          ? this.zeroArr[this.y + y + directionY][this.x + x + directionX] === 0
+          : true
       )
     );
     // I LEAVE THIS HERE FOR TESTING

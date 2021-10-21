@@ -26,6 +26,7 @@ function buildGameScreen() {
 
   const canvasElement = document.querySelector('#tetris-canvas');
   const ctx = canvasElement.getContext('2d');
+  const scores = document.querySelector('.scores');
   const height = document.querySelector('.board').offsetHeight;
   const blockSize = height / 20;
   const game = new Game(canvasElement, blockSize);
@@ -33,6 +34,7 @@ function buildGameScreen() {
 
   canvasElement.setAttribute('width', width);
   canvasElement.setAttribute('height', height);
+  scores.textContent = game.score;
 
   // Scale blocks
   ctx.scale(blockSize, blockSize);
@@ -58,6 +60,13 @@ function buildGameScreen() {
 
   const stopButton = document.querySelector('.btn-stop');
   stopButton.addEventListener('click', stop);
+}
+
+function buildGameOverScreen() {
+  document.querySelector('.overlay').style.opacity = '1';
+  document.querySelector('.overlay').style.display = 'block';
+  const startButton = document.querySelector('button');
+  startButton.addEventListener('click', buildGameScreen);
 }
 
 const init = () => {

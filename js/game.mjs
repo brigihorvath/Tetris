@@ -10,11 +10,12 @@ class Game {
     this.blockSize = blockSize;
     this.zeroArr = this.getZeroArray();
     this.isGameOver = false;
+    this.animationLoopId;
+    this.score = 0;
   }
 
   startLoop() {
     let last = 0;
-    let start = 0;
     this.tetromino = new Tetromino(this.canvas, this.blockSize, this.zeroArr);
     this.tetromino.setShapeAndColor();
     const loop = (now) => {
@@ -30,11 +31,11 @@ class Game {
       if (
         this.tetromino.y + this.tetromino.shape.length ===
           this.canvas.height / this.blockSize ||
-        !this.tetromino.checkIfEmpty()
+        !this.tetromino.checkIfEmpty(this.tetromino.shape, 0, 1)
       ) {
         this.fillUpArray();
         this.clearCanvas();
-        console.log(this.deleteFullRow());
+        this.deleteFullRow();
         this.drawZeroArr();
         this.tetromino = new Tetromino(
           this.canvas,
@@ -42,9 +43,16 @@ class Game {
           this.zeroArr
         );
         this.tetromino.setShapeAndColor();
+        this.gameOver();
+      }
+
+      if (this.isGameOver) {
+        this.clearCanvas();
+        cancelAnimationFrame(this.animationLoopId);
+        return;
       }
       if (!this.isGameOver) {
-        window.requestAnimationFrame(loop);
+        this.animationLoopId = window.requestAnimationFrame(loop);
       }
     };
     window.requestAnimationFrame(loop);
@@ -104,11 +112,18 @@ class Game {
   deleteFullRow() {
     this.zeroArr.forEach((arr, i) => {
       if (!arr.includes(0)) {
+        this.score += 100;
         this.zeroArr.splice(i, 1);
         this.zeroArr.unshift(new Array(this.columnCount).fill(0));
       }
     });
     return this.zeroArr;
+  }
+
+  gameOver() {
+    if (this.zeroArr[0].includes(1)) {
+      this.isGameOver = true;
+    }
   }
 }
 

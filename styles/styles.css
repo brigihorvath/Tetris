@@ -173,7 +173,7 @@ h1 {
 }
 
 .branding,
-.scores {
+.scores-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
