@@ -1,4 +1,5 @@
 import Tetromino from './tetromino.mjs';
+import Levels from './levels.mjs';
 
 class Game {
   constructor(canvas, blockSize) {
@@ -12,6 +13,8 @@ class Game {
     this.isGameOver = false;
     this.animationLoopId;
     this.score = 0;
+    this.speed = 1000;
+    this.levels = new Levels();
   }
 
   startLoop() {
@@ -22,9 +25,10 @@ class Game {
       this.clearCanvas();
       this.drawZeroArr();
       this.tetromino.draw();
-      if (now - last >= 1000) {
+      if (now - last >= this.speed) {
         last = now;
         this.tetromino.accelerate();
+        console.log(this.tetromino.nextMoveLeft, this.tetromino.nextMoveRight);
       }
       // if the Tetromino is at the bottom of the canvas
       // or touches another tetromino
@@ -33,16 +37,18 @@ class Game {
           this.canvas.height / this.blockSize ||
         !this.tetromino.checkIfEmpty(this.tetromino.shape, 0, 1)
       ) {
-        if (this.tetromino.nextMoveLeft || this.tetromino.nextMoveRight) {
-          console.log(
-            this.tetromino.nextMoveLeft,
-            this.tetromino.nextMoveRight
-          );
-          this.tetromino.x += this.tetromino.nextMoveLeft
-            ? this.tetromino.nextMoveLeft
-            : this.tetromino.nextMoveRight;
-          this.tetromino.draw();
-        }
+        // last move before we save the tetromino in the zeroArray
+        if (
+          this.tetromino.checkIfEmpty(this.tetromino.shape, -1, 0) &&
+          this.tetromino.nextMoveLeft
+        )
+          this.tetromino.x--;
+        if (
+          this.tetromino.checkIfEmpty(this.tetromino.shape, 1, 0) &&
+          this.tetromino.nextMoveRight
+        )
+          this.tetromino.x++;
+        this.tetromino.draw();
         this.fillUpArray();
         this.clearCanvas();
         this.deleteFullRow();
@@ -123,8 +129,9 @@ class Game {
     this.zeroArr.forEach((arr, i) => {
       if (!arr.includes(0)) {
         this.score += 100;
+        this.speed = this.levels.setNextLevel(this.score);
         this.setScore();
-        console.log(this.score);
+        console.log(this.speed);
         this.zeroArr.splice(i, 1);
         this.zeroArr.unshift(new Array(this.columnCount).fill(0));
       }

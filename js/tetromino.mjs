@@ -16,8 +16,8 @@ class Tetromino {
     // if we (reachTheBottom OR reach the top of another tetromino)
     // AND in the previous states we couldn't go right or left
     // it moves the tetromino just before it fills it up in the zero array
-    this.nextMoveLeft = false;
-    this.nextMoveRight = false;
+    this.nextMoveLeft = 0;
+    this.nextMoveRight = 0;
   }
 
   // we create here the random objects from the shapeFactory
@@ -86,29 +86,30 @@ class Tetromino {
       this.checkIfEmpty(this.shape, -1)
     ) {
       this.nextMoveRight = 0;
+      this.nextMoveLeft = 0;
       this.x = this.x + direction;
     } else if (
       direction === +1 &&
       this.checkBoardRightEdge(this.x) &&
       this.checkIfEmpty(this.shape, 1)
     ) {
+      this.nextMoveRight = 0;
       this.nextMoveLeft = 0;
       this.x = this.x + direction;
-    }
-
-    if (
+    } else if (
       direction === -1 &&
-      this.checkBoardLeftEdge(thix.x - 1) &&
+      this.checkBoardLeftEdge(this.x - 1) &&
       this.checkIfEmpty(this.shape, -1, 1)
     ) {
       this.nextMoveLeft = direction;
-    }
-    if (
+      this.nextMoveRight = 0;
+    } else if (
       direction === 1 &&
       this.checkBoardRightEdge(this.x + 1) &&
       this.checkIfEmpty(this.shape, 1, 1)
     ) {
       this.nextMoveRight = direction;
+      this.nextMoveLeft = 0;
     }
   }
 
