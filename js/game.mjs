@@ -7,11 +7,11 @@ class Game {
     this.ctx = this.canvas.getContext('2d');
     this.columnCount = 10;
     this.rowCount = 20;
-    this.tetromino;
     this.blockSize = blockSize;
     this.zeroArr = this.getZeroArray();
     this.isGameOver = false;
-    this.animationLoopId;
+    this.isPaused = false;
+    // this.animationLoopId;
     this.score = 0;
     this.speed = 1000;
     this.levels = new Levels();
@@ -23,50 +23,53 @@ class Game {
     this.tetromino = new Tetromino(this.canvas, this.blockSize, this.zeroArr);
     this.tetromino.setShapeAndColor();
     const loop = (now) => {
-      this.clearCanvas();
-      this.drawZeroArr();
-      this.tetromino.draw();
-      if (now - last >= this.speed) {
-        last = now;
-        this.tetromino.accelerate();
-      }
-      // if the Tetromino is at the bottom of the canvas
-      // or touches another tetromino
-      if (
-        this.tetromino.y + this.tetromino.shape.length ===
-          this.canvas.height / this.blockSize ||
-        !this.tetromino.checkIfEmpty(this.tetromino.shape, 0, 1)
-      ) {
-        // last move before we save the tetromino in the zeroArray
-        if (
-          this.tetromino.checkIfEmpty(this.tetromino.shape, -1, 0) &&
-          this.tetromino.nextMoveLeft
-        )
-          this.tetromino.x--;
-        if (
-          this.tetromino.checkIfEmpty(this.tetromino.shape, 1, 0) &&
-          this.tetromino.nextMoveRight
-        )
-          this.tetromino.x++;
-        this.tetromino.draw();
-        this.fillUpArray();
-        this.setIsGameOver();
+      if (!this.isPaused) {
         this.clearCanvas();
-        this.deleteFullRow();
         this.drawZeroArr();
-        this.tetromino = new Tetromino(
-          this.canvas,
-          this.blockSize,
-          this.zeroArr
-        );
-        this.tetromino.setShapeAndColor();
-      }
+        this.tetromino.draw();
+        // the tetrominos are accelerating downwards with the speed
+        if (now - last >= this.speed) {
+          last = now;
+          this.tetromino.accelerate();
+        }
+        // if the Tetromino is at the bottom of the canvas
+        // or touches another tetromino
+        if (
+          this.tetromino.y + this.tetromino.shape.length ===
+            this.canvas.height / this.blockSize ||
+          !this.tetromino.checkIfEmpty(this.tetromino.shape, 0, 1)
+        ) {
+          // last move before we save the tetromino in the zeroArray
+          if (
+            this.tetromino.checkIfEmpty(this.tetromino.shape, -1, 0) &&
+            this.tetromino.nextMoveLeft
+          )
+            this.tetromino.x--;
+          if (
+            this.tetromino.checkIfEmpty(this.tetromino.shape, 1, 0) &&
+            this.tetromino.nextMoveRight
+          )
+            this.tetromino.x++;
+          this.tetromino.draw();
+          this.fillUpArray();
+          this.setIsGameOver();
+          this.clearCanvas();
+          this.deleteFullRow();
+          this.drawZeroArr();
+          this.tetromino = new Tetromino(
+            this.canvas,
+            this.blockSize,
+            this.zeroArr
+          );
+          this.tetromino.setShapeAndColor();
+        }
 
-      if (this.isGameOver) {
-        this.clearCanvas();
-        // this.tetromino = {};
-        cancelAnimationFrame(this.animationLoopId);
-        this.onGameOver();
+        if (this.isGameOver) {
+          this.clearCanvas();
+          // this.tetromino = {};
+          cancelAnimationFrame(this.animationLoopId);
+          this.onGameOver();
+        }
       }
       if (!this.isGameOver) {
         this.animationLoopId = window.requestAnimationFrame(loop);
@@ -125,14 +128,15 @@ class Game {
       });
     });
   }
-
+  // delete row if all the fields are covered
+  // (every element of the array is 1)
   deleteFullRow() {
     this.zeroArr.forEach((arr, i) => {
       if (!arr.includes(0)) {
         this.score += 100;
         this.speed = this.levels.setNextLevel(this.score);
-        this.setScore();
-        console.log(this.speed);
+        this.setLevel();
+        this.onLevelChange();
         this.zeroArr.splice(i, 1);
         this.zeroArr.unshift(new Array(this.columnCount).fill(0));
       }
@@ -146,10 +150,8 @@ class Game {
 
   // wouldn't it be in a better place in index.mjs
   // But how????
-  setScore() {
-    this.setLevel();
-    document.querySelector('.scores').textContent = this.score;
-    document.querySelector('.level').textContent = this.level;
+  setScore(callback) {
+    this.onLevelChange = callback;
   }
 
   setIsGameOver() {
@@ -157,9 +159,18 @@ class Game {
       this.isGameOver = true;
     }
   }
+  // for the reset button we need to set the game over
+  // because it needs to clear the canvas and stop the animationframe
+  resetGame() {
+    this.isGameOver = true;
+  }
 
   gameOver(callback) {
     this.onGameOver = callback;
+  }
+
+  pauseGame() {
+    this.isPaused = !this.isPaused;
   }
 }
 

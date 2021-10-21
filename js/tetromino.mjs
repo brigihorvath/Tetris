@@ -4,9 +4,9 @@ class Tetromino {
   constructor(canvas, blockSize, zeroArray) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-    this.speed = 1;
-    this.color;
-    this.shape;
+    // this.speed = 1;
+    // this.color;
+    // this.shape;
     this.x = 3;
     this.y = 0;
     this.blockSize = blockSize;

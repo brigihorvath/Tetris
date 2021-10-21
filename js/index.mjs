@@ -8,13 +8,13 @@ function buildDom(html) {
 function buildSplashScreen() {
   buildDom(`<div class="start">
     <img
-      src="./img/tetris-icon-12.jpg"
-      alt="Tetris"
-      class="tetris-img__overlay"
+    src="./img/tetris-icon-12.jpg"
+    alt="Tetris"
+    class="tetris-img__overlay"
     />
     <h1>TETRIS</h1>
     <button type="button" class="start-button">START</button>
-  </div>`);
+    </div>`);
   document.querySelector('.overlay').style.opacity = '1';
   document.querySelector('.overlay').style.display = 'block';
   const startButton = document.querySelector('button');
@@ -27,12 +27,6 @@ function buildGameScreen() {
     document.querySelector('.overlay').style.display = 'none';
   }, 500);
 
-  //   buildDom(`
-  //     <section class="game-screen">
-  //     <canvas id="tetris-canvas"></canvas>
-  //     </section>
-  //     `);
-
   const canvasElement = document.querySelector('#tetris-canvas');
   const ctx = canvasElement.getContext('2d');
   const scores = document.querySelector('.scores');
@@ -43,14 +37,14 @@ function buildGameScreen() {
   canvasElement.setAttribute('height', height);
   // Scale blocks to 1 * 1 size
   ctx.scale(blockSize, blockSize);
-  //   console.log(canvasElement.width, blockSize, width, height);
   // console.table will show us the 2D array as a table
-  //   console.table(game.getZeroArray());
+  // console.table(game.getZeroArray());
 
   // I am passing the blocksize, because I want to do the game responsive
   // I am not sure it is going to work
   // Have to think it over in the design phase
   const game = new Game(canvasElement, blockSize);
+  game.setScore(buildScoreSection);
   game.gameOver(buildGameOverScreen);
 
   game.startLoop();
@@ -72,14 +66,20 @@ function buildGameScreen() {
     game.tetromino.draw();
   };
 
-  const stop = function () {
-    game.isGameOver = true;
-  };
-
+  ///////////////////
+  //// EVENT LISTENERS
   document.addEventListener('keydown', moveTetromino);
 
-  const stopButton = document.querySelector('.btn-stop');
-  stopButton.addEventListener('click', stop);
+  const pauseButton = document.querySelector('.btn-pause');
+  pauseButton.addEventListener('click', () => {
+    game.pauseGame();
+  });
+  //   RESET button doesn't work with buildGameScreen
+  //   Needs to be fully resetted (clearcanvas)
+  const resetButton = document.querySelector('.btn-reset');
+  resetButton.addEventListener('click', () => {
+    game.resetGame();
+  });
 }
 
 function buildGameOverScreen() {
@@ -96,9 +96,16 @@ function buildGameOverScreen() {
   </div>`);
   document.querySelector('.overlay').style.opacity = '1';
   document.querySelector('.overlay').style.display = 'block';
+  // "this" will be the game because that will call the function
   document.querySelector('.game-over-scores').textContent = this.score;
-  const startButton = document.querySelector('button');
+  const startButton = document.querySelector('.start-button');
   startButton.addEventListener('click', buildGameScreen);
+}
+
+function buildScoreSection() {
+  // "this" will be the game because that will call the function
+  document.querySelector('.scores').textContent = this.score;
+  document.querySelector('.level').textContent = this.level;
 }
 
 const init = () => {
