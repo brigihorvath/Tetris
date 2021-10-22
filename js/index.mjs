@@ -98,6 +98,8 @@ function buildGameOverScreen() {
   document.querySelector('.overlay').style.display = 'block';
   // "this" will be the game because that will call the function
   document.querySelector('.game-over-scores').textContent = this.score;
+  document.querySelector('.scores').textContent = 0;
+  document.querySelector('.level').textContent = 1;
   const startButton = document.querySelector('.start-button');
   startButton.addEventListener('click', buildGameScreen);
 }
