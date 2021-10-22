@@ -30,9 +30,11 @@ function buildGameScreen() {
   const canvasElement = document.querySelector('#tetris-canvas');
   const ctx = canvasElement.getContext('2d');
   const scores = document.querySelector('.scores');
-  const height = document.querySelector('.board').offsetHeight;
-  const blockSize = height / 20;
+  //   const height = document.querySelector('.board').offsetHeight;
+  //   const blockSize = height / 20;
+  const blockSize = 30;
   const width = blockSize * 10;
+  const height = 600;
   canvasElement.setAttribute('width', width);
   canvasElement.setAttribute('height', height);
   // Scale blocks to 1 * 1 size
@@ -61,6 +63,9 @@ function buildGameScreen() {
       game.tetromino.rotate();
       game.tetromino.nextMoveLeft = 0;
       game.tetromino.nextMoveRight = 0;
+    }
+    if (event.code === 'Space') {
+      game.tetromino.hardDrop();
     }
     game.clearCanvas();
     game.tetromino.draw();

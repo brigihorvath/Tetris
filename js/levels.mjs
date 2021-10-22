@@ -11,13 +11,13 @@ class Levels {
         7: 400,
         8: 300,
         9: 200,
-        10: 100,
-        11: 50,
+        10: 180,
+        11: 150,
       });
   }
   setNextLevel(scores) {
-    if (scores % 200 === 0) {
-      this.currentLevel = scores / 200 + 1;
+    if (scores % 300 === 0) {
+      this.currentLevel = scores / 300 + 1;
     }
     console.log(this.levels[this.currentLevel]);
     return this.levels[this.currentLevel];

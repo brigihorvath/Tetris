@@ -7,43 +7,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Press+Start+2P&family=Space+Mono&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="./styles/styles.css" />
     <title>Tetris</title>
   </head>
   <body>
     <div class="overlay"></div>
     <div class="container">
-      <div class="branding">
-        <img src="./img/tetris-icon-12.jpg" alt="Tetris" class="tetris-img" />
-        <h2>TETRIS</h2>
-      </div>
-      <div class="board">
-        <section class="game-screen">
-          <canvas id="tetris-canvas"></canvas>
-        </section>
-      </div>
-      <div class="scores-container">
-        <h2>SCORES:</h2>
-        <p class="scores">0</p>
-        <h2>LEVEL:</h2>
-        <p class="level">1</p>
-        <!-- 
-              <i class="fas fa-caret-square-right"></i>
-              <i class="fas fa-caret-square-right fa-2"></i>
-              <i class="fas fa-caret-square-right fa-3"></i>
-              <i class="fas fa-caret-square-right fa-4"></i> -->
-        <button type="button" class="btn btn-reset">RESET</button>
-        <button type="button" class="btn btn-pause">PAUSE</button>
+      <h1>TETRIS</h1>
+      <div class="game-container">
+        <div class="board">
+          <section class="game-screen">
+            <canvas id="tetris-canvas"></canvas>
+          </section>
+        </div>
+        <div class="scores-container">
+          <h2>SCORES:</h2>
+          <p class="scores">0</p>
+          <h2>LEVEL:</h2>
+          <p class="level">1</p>
+          <!-- 
+                  <i class="fas fa-caret-square-right"></i>
+                  <i class="fas fa-caret-square-right fa-2"></i>
+                  <i class="fas fa-caret-square-right fa-3"></i>
+                  <i class="fas fa-caret-square-right fa-4"></i> -->
+          <button type="button" class="btn btn-reset">RESET</button>
+          <button type="button" class="btn btn-pause">PAUSE</button>
+        </div>
       </div>
     </div>
-    <script
-      src="https://kit.fontawesome.com/92834c5e77.js"
-      crossorigin="anonymous"
-    ></script>
     <script type="module">
       import './js/index.mjs';
     </script>

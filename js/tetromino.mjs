@@ -18,6 +18,7 @@ class Tetromino {
     // it moves the tetromino just before it fills it up in the zero array
     this.nextMoveLeft = 0;
     this.nextMoveRight = 0;
+    // this.isHardDropped = false;
   }
 
   // we create here the random objects from the shapeFactory
@@ -121,6 +122,55 @@ class Tetromino {
     }
   }
 
+  hardDrop() {
+    // save the Y coordinate in case in the meantime the tetromino accelerates
+    // console.table(this.zeroArr);
+    // let firstOccupiedFieldY = 0;
+    // this.zeroArr.forEach((arr, y) => {
+    //   arr.forEach((el, x) => {
+    //     if (
+    //       (this.x - this.shape[0].length <= x || this.x >= x) &&
+    //       el === 1 &&
+    //       (firstOccupiedFieldY === 0 || firstOccupiedFieldY > y)
+    //     ) {
+    //       firstOccupiedFieldY = y;
+    //     }
+    //   });
+    // });
+    // console.log(`${firstOccupiedFieldY - this.y + 1}`);
+    // if (firstOccupiedFieldY === 0) {
+    //   this.y = this.zeroArr.length - this.shape.length;
+    // } else if (
+    //   this.checkIfEmpty(
+    //     this.shape,
+    //     0,
+    //     firstOccupiedFieldY - this.y - this.shape.length + 1
+    //   )
+    // ) {
+    //   this.y = firstOccupiedFieldY - this.shape.length + 1;
+    // } else {
+    //   this.y = firstOccupiedFieldY - this.shape.length;
+    // }
+    // this.isHardDropped = true;
+    let hardDropY = 0;
+    // let firstNotEmpty = this.zeroArr.length - 1;
+    this.zeroArr.forEach((arr, y) => {
+      arr.forEach((el, x) => {
+        if (
+          y > this.y + this.shape.length - 1 &&
+          y <= this.zeroArr.length - this.shape.length &&
+          this.checkIfEmpty(this.shape, 0, y - this.y)
+        ) {
+          hardDropY = y;
+          // } else if (!this.checkIfEmpty(this.shape, 0, y - this.y)) {
+          //   firstNotEmpty = y < firstNotEmpty ? y : firstNotEmpty;
+          // }
+        }
+      });
+    });
+    this.y = hardDropY === 0 ? this.y : hardDropY;
+  }
+
   // to check if the move is valid or not
   // need to pass in x as a parameter
   // because when I wanna check the next state I need another x
@@ -159,6 +209,7 @@ class Tetromino {
           : true
       )
     );
+
     // I LEAVE THIS HERE FOR TESTING
     // this.shape.forEach((arr, y) =>
     //   arr.forEach((el, x) => {
