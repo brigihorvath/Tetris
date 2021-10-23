@@ -153,21 +153,23 @@ class Tetromino {
     // }
     // this.isHardDropped = true;
     let hardDropY = 0;
-    // let firstNotEmpty = this.zeroArr.length - 1;
+    let firstNotEmpty = this.zeroArr.length - 1;
     this.zeroArr.forEach((arr, y) => {
       arr.forEach((el, x) => {
         if (
-          y > this.y + this.shape.length - 1 &&
+          y > this.y &&
           y <= this.zeroArr.length - this.shape.length &&
-          this.checkIfEmpty(this.shape, 0, y - this.y)
+          y <= firstNotEmpty
         ) {
-          hardDropY = y;
-          // } else if (!this.checkIfEmpty(this.shape, 0, y - this.y)) {
-          //   firstNotEmpty = y < firstNotEmpty ? y : firstNotEmpty;
-          // }
+          if (this.checkIfEmpty(this.shape, 0, y - this.y)) {
+            hardDropY = y;
+          } else if (!this.checkIfEmpty(this.shape, 0, y - this.y)) {
+            firstNotEmpty = y < firstNotEmpty ? y : firstNotEmpty;
+          }
         }
       });
     });
+
     this.y = hardDropY === 0 ? this.y : hardDropY;
   }
 
