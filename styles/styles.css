@@ -334,7 +334,18 @@ h2 {
   .single-icon p {
     display: none;
   }
+
+  .fa-icons {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @media only screen and (max-width: 576px) {
+  .container {
+    padding: 0.5rem;
+  }
+  body {
+    font-size: 2rem;
+  }
 }
