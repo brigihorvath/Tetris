@@ -71,10 +71,36 @@ function buildGameScreen() {
     game.tetromino.draw();
   };
 
+  const moveTetrominoOnClick = function (event) {
+    console.log(event.target.closest('.single-icon'));
+    const targetedBtn = event.target.closest('.single-icon');
+    if (targetedBtn.classList.contains('left')) game.tetromino.setPosition(-1);
+    if (targetedBtn.classList.contains('right')) game.tetromino.setPosition(+1);
+    if (targetedBtn.classList.contains('down')) {
+      game.tetromino.accelerate();
+      game.tetromino.nextMoveLeft = 0;
+      game.tetromino.nextMoveRight = 0;
+    }
+    if (targetedBtn.classList.contains('rotate')) {
+      game.tetromino.rotate();
+      game.tetromino.nextMoveLeft = 0;
+      game.tetromino.nextMoveRight = 0;
+    }
+    if (targetedBtn.classList.contains('hard-drop')) {
+      game.tetromino.hardDrop();
+    }
+    game.clearCanvas();
+    game.tetromino.draw();
+  };
+
   ///////////////////
   //// EVENT LISTENERS
   document.addEventListener('keydown', moveTetromino);
 
+  const faIcons = document.querySelector('.fa-icons');
+  faIcons.addEventListener('click', moveTetrominoOnClick);
+
+  // Maybe the buttons can be also put into the moveTetrominoOnClick function?
   const pauseButton = document.querySelector('.btn-pause');
   pauseButton.addEventListener('click', () => {
     game.pauseGame();

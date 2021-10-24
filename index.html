@@ -18,11 +18,6 @@
     <div class="container">
       <h1>TETRIS</h1>
       <div class="game-container">
-        <div class="board">
-          <section class="game-screen">
-            <canvas id="tetris-canvas"></canvas>
-          </section>
-        </div>
         <div class="scores-buttons">
           <div class="scores-container">
             <h2>SCORES:</h2>
@@ -30,18 +25,46 @@
             <h2>LEVEL:</h2>
             <p class="level">1</p>
           </div>
-          <!-- 
-                    <i class="fas fa-caret-square-right"></i>
-                    <i class="fas fa-caret-square-right fa-2"></i>
-                    <i class="fas fa-caret-square-right fa-3"></i>
-                    <i class="fas fa-caret-square-right fa-4"></i> -->
+
           <div class="btn-container">
             <button type="button" class="btn btn-reset">RESET</button>
             <button type="button" class="btn btn-pause">PAUSE</button>
           </div>
         </div>
+        <div class="board">
+          <section class="game-screen">
+            <canvas id="tetris-canvas"></canvas>
+          </section>
+        </div>
+
+        <div class="fa-icons">
+          <div class="single-icon right">
+            <i class="fa-icon fa-solid fa-chevron-right"></i>
+            <p>Move right</p>
+          </div>
+          <div class="single-icon left">
+            <i class="fa-icon fa-solid fa-chevron-left"></i>
+            <p>Move left</p>
+          </div>
+          <div class="single-icon down">
+            <i class="fa-icon fa-solid fa-chevron-down"></i>
+            <p>Soft drop</p>
+          </div>
+          <div class="single-icon hard-drop">
+            <i class="fa-icon fa-solid fa-angles-down"></i>
+            <p>Hard drop</p>
+          </div>
+          <div class="single-icon rotate">
+            <i class="fa-icon fa-solid fa-arrows-rotate"></i>
+            <p>Rotate</p>
+          </div>
+        </div>
       </div>
     </div>
+    <script
+      src="https://kit.fontawesome.com/92834c5e77.js"
+      crossorigin="anonymous"
+    ></script>
     <script type="module">
       import './js/index.mjs';
     </script>

@@ -114,8 +114,8 @@ select {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50vw;
-  height: 50vh;
+  width: 70vw;
+  height: 70vh;
   background-image: linear-gradient(
       110.3deg,
       rgba(109, 141, 167, 0.5) 4.3%,
@@ -184,23 +184,26 @@ body {
 }
 
 .container {
-  width: 70%;
+  width: 60%;
   height: 100vh;
   margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 8rem;
+  padding: 2rem 5rem;
 }
 
 h1 {
   font-size: 10rem;
-  text-align: left;
+  text-align: center;
 }
 .game-container {
   display: flex;
+  justify-content: center;
 }
 
 .board {
-  width: 50%;
+  width: 40%;
+  min-width: 300px;
+  margin: 0 auto;
 }
 
 .game-screen {
@@ -208,26 +211,28 @@ h1 {
   height: 600px;
   background-color: white;
   border-radius: 5px;
+  margin: 0 auto;
 }
 
 h2 {
   font-size: 3rem;
 }
 
-.scores-container {
+.scores-container,
+.btn-container {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   padding-left: 2rem;
-  width: 40%;
+}
+
+.scores-buttons {
+  width: 30%;
+  margin-right: 2rem;
 }
 .scores,
 .level {
   font-size: 2.5rem;
-}
-
-.btn-container {
-  display: flex;
-  flex-direction: column;
 }
 
 .btn {
@@ -235,6 +240,32 @@ h2 {
   margin: 0.5rem 0;
   padding: 0.5rem 2rem;
   font-size: 1.5rem;
+}
+
+.fa-icons::before,
+.single-icon::before {
+  content: '' !important;
+}
+.single-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.fa-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 30%;
+  margin-left: 1rem;
+}
+
+.fa-icon {
+  font-size: 3rem;
+  padding: 1rem;
+}
+
+.single-icon p {
+  font-size: 2rem;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -247,9 +278,6 @@ h2 {
   .container {
     width: 100%;
   }
-  .game-container {
-    justify-content: center;
-  }
 
   .container h1 {
     text-align: center;
@@ -257,9 +285,6 @@ h2 {
 }
 
 @media only screen and (max-width: 768px) {
-  .container {
-    padding-top: 20px;
-  }
   .container h1 {
     font-size: 5rem;
   }
@@ -268,14 +293,18 @@ h2 {
     align-items: center;
     width: 100%;
   }
+
   .scores-container {
-    order: 0;
     flex-direction: row;
+    justify-content: center;
   }
-  .board {
-    order: 1;
-  }
+
   .scores-buttons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .controls {
     display: flex;
     flex-direction: column;
   }
@@ -294,4 +323,18 @@ h2 {
   .board {
     width: 100%;
   }
+  .game-screen {
+    width: 200px;
+    height: 400px;
+  }
+  .fa-icons {
+    flex-direction: row;
+    margin: 0.5rem auto;
+  }
+  .single-icon p {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 576px) {
 }
