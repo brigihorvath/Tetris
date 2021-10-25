@@ -5,6 +5,8 @@ function buildDom(html) {
   overlay.innerHTML = html;
 }
 
+let playerName = '';
+
 function buildSplashScreen() {
   buildDom(`<div class="start">
     <img
@@ -13,8 +15,14 @@ function buildSplashScreen() {
     class="tetris-img__overlay"
     />
     <h1>TETRIS</h1>
+    <form>
+      <label for="fname" class="form-label">Player's name:</label><br>
+      <input type="text" id="fname" name="fname" class="name-input"><br>
+    </form>
     <button type="button" class="start-button">START</button>
     </div>`);
+  playerName = document.querySelector('.name-input').value;
+  console.log(document.querySelector('.name-input'));
   document.querySelector('.overlay').style.opacity = '1';
   document.querySelector('.overlay').style.display = 'block';
   const startButton = document.querySelector('button');
@@ -22,6 +30,9 @@ function buildSplashScreen() {
 }
 
 function buildGameScreen() {
+  playerName = document.querySelector('.name-input')
+    ? document.querySelector('.name-input').value
+    : playerName;
   document.querySelector('.overlay').style.opacity = '0';
   setTimeout(() => {
     document.querySelector('.overlay').style.display = 'none';
@@ -31,6 +42,9 @@ function buildGameScreen() {
   const ctx = canvasElement.getContext('2d');
   const scores = document.querySelector('.scores');
   const height = document.querySelector('.game-screen').offsetHeight;
+  document.querySelector('.player-name').textContent = playerName
+    ? `Player's name: ${playerName}`
+    : '';
   //   const blockSize = height / 20;
   const blockSize = height / 20;
   const width = blockSize * 10;
@@ -129,6 +143,19 @@ function buildGameOverScreen() {
   document.querySelector('.overlay').style.display = 'block';
   // "this" will be the game because that will call the function
   document.querySelector('.game-over-scores').textContent = this.score;
+  let scores = JSON.parse(localStorage.getItem('scores'));
+  console.log(scores);
+  if (scores && scores[playerName] < this.score) {
+    console.log(scores[playerName]);
+    scores[playerName] = this.score;
+  } else if (!scores) {
+    scores = {};
+    scores[playerName] = this.score;
+  } else if (scores) {
+    scores[playerName] = this.score;
+  }
+  // console.log(scor es);
+  localStorage.setItem('scores', JSON.stringify(scores));
   document.querySelector('.scores').textContent = 0;
   document.querySelector('.level').textContent = 1;
   const startButton = document.querySelector('.start-button');

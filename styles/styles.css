@@ -141,6 +141,26 @@ select {
   margin: 1rem 0;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-label {
+  font-size: 1.5rem;
+}
+input {
+  padding: 0.5rem 2rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid rgb(174, 60, 197);
+  box-shadow: 0 0 10px #719ece;
+}
+
 .tetris-img__overlay {
   width: 20%;
   margin: 2rem auto;
@@ -194,6 +214,11 @@ body {
 h1 {
   font-size: 10rem;
   text-align: center;
+}
+
+.player-name {
+  text-align: center;
+  font-size: 2rem;
 }
 .game-container {
   display: flex;
@@ -347,5 +372,8 @@ h2 {
   }
   body {
     font-size: 2rem;
+  }
+  .overlay h1 {
+    font-size: 3rem;
   }
 }
