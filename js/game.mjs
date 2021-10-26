@@ -23,10 +23,10 @@ class Game {
     this.tetromino = new Tetromino(this.canvas, this.blockSize, this.zeroArr);
     this.tetromino.setShapeAndColor();
     const loop = (now) => {
+      this.clearCanvas();
+      this.drawZeroArr();
+      this.tetromino.draw();
       if (!this.isPaused) {
-        this.clearCanvas();
-        this.drawZeroArr();
-        this.tetromino.draw();
         // the tetrominos are accelerating downwards with the speed
         if (now - last >= this.speed) {
           last = now;
@@ -63,13 +63,13 @@ class Game {
           );
           this.tetromino.setShapeAndColor();
         }
-
-        if (this.isGameOver) {
-          this.clearCanvas();
-          // this.tetromino = {};
-          cancelAnimationFrame(this.animationLoopId);
-          this.onGameOver();
-        }
+      }
+      if (this.isGameOver) {
+        this.clearCanvas();
+        // this.tetromino = {};
+        cancelAnimationFrame(this.animationLoopId);
+        this.onGameOver();
+        return;
       }
       if (!this.isGameOver) {
         this.animationLoopId = window.requestAnimationFrame(loop);

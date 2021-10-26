@@ -256,8 +256,24 @@ h2 {
   margin-right: 2rem;
 }
 .scores,
-.level {
+.level,
+.highest-scoring-player,
+.all-stars-highest-points-p,
+.players-highest-score-p {
   font-size: 2.5rem;
+}
+
+.ahs {
+  padding: 0 1rem;
+}
+
+.ahs-flex {
+  display: flex;
+}
+
+h2.phs,
+h2.ahs {
+  text-align: center;
 }
 
 .btn {
@@ -363,6 +379,12 @@ h2 {
   .fa-icons {
     width: 100%;
     justify-content: center;
+  }
+
+  .start,
+  .restart {
+    width: 90vw;
+    height: 85vh;
   }
 }
 

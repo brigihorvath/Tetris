@@ -22,7 +22,6 @@ function buildSplashScreen() {
     <button type="button" class="start-button">START</button>
     </div>`);
   playerName = document.querySelector('.name-input').value;
-  console.log(document.querySelector('.name-input'));
   document.querySelector('.overlay').style.opacity = '1';
   document.querySelector('.overlay').style.display = 'block';
   const startButton = document.querySelector('button');
@@ -129,30 +128,80 @@ function buildGameScreen() {
 
 function buildGameOverScreen() {
   buildDom(`<div class="restart">
-    <img
-      src="./img/tetris-icon-12.jpg"
-      alt="Tetris"
-      class="tetris-img__overlay"
-    />
     <h1>GAME OVER</h1>
     <h2>Your points:</h2>
     <p class="game-over-scores"></p>
+    <h2 class="phs players-highest-score-h">Your highest points:</h2>
+    <p class="phs players-highest-score-p"></p>
+    <h2 class="ahs all-stars-highest-points-h">All Star High Score:</h2>
+    <div class="ahs-flex">
+    <p class="ahs highest-scoring-player"></p>
+    <p class="ahs all-stars-highest-points-p"></p>
+    </div>
     <button type="button" class="start-button">RESTART</button>
   </div>`);
   document.querySelector('.overlay').style.opacity = '1';
   document.querySelector('.overlay').style.display = 'block';
   // "this" will be the game because that will call the function
   document.querySelector('.game-over-scores').textContent = this.score;
+
+  //LOCAL Storage
+  // Check if there is data in the localStorage and creates an object that contains
+  // all the highest scores
+  const phsDOM = document.querySelectorAll('.phs');
+  const ahsDOM = document.querySelectorAll('.ahs');
+  const highestSPDOM = document.querySelector('.highest-scoring-player');
+  const highestScoreDOM = document.querySelector('.all-stars-highest-points-p');
+  const playersHighestScoreDOM = document.querySelector(
+    '.players-highest-score-p'
+  );
   let scores = JSON.parse(localStorage.getItem('scores'));
-  console.log(scores);
-  if (scores && scores[playerName] < this.score) {
-    console.log(scores[playerName]);
-    scores[playerName] = this.score;
+  let allStarHighestPoint = 0;
+  let highestScoringPlayer = '';
+  if (scores) {
+    for (let key in scores) {
+      if (scores[key] > allStarHighestPoint) {
+        allStarHighestPoint = scores[key];
+        highestScoringPlayer = key;
+      }
+    }
+    if (this.score > allStarHighestPoint) {
+      console.log('new high score');
+      allStarHighestPoint = scores[playerName];
+      highestScoringPlayer = playerName;
+      document.querySelector('.ahs-flex').style.display = 'none';
+      document.querySelector('h2.ahs').textContent = 'NEW HIGHSCORE';
+    }
+
+    highestSPDOM.textContent = highestScoringPlayer;
+    highestScoreDOM.textContent = allStarHighestPoint;
+
+    if (scores[playerName] < this.score) {
+      console.log('new highest point for the player');
+      scores[playerName] = this.score;
+      phsDOM.forEach((el) => (el.style.display = 'none'));
+      // highestSPDOM.textContent = highestScoringPlayer;
+      // highestScoreDOM.textContent = allStarHighestPoint;
+      //You have reached a new highscore!
+      // All Stars High Score:
+    } else if (!scores[playerName]) {
+      console.log('new player');
+      scores[playerName] = this.score;
+      phsDOM.forEach((el) => (el.style.display = 'none'));
+      // highestSPDOM.textContent = `${highestScoringPlayer}: `;
+      // highestScoreDOM.textContent = allStarHighestPoint;
+    } else {
+      console.log('existing player, no new high score');
+      // highestSPDOM.textContent = highestScoringPlayer;
+      // highestScoreDOM.textContent = allStarHighestPoint;
+      playersHighestScoreDOM.textContent = scores[playerName];
+    }
   } else if (!scores) {
+    console.log('new player, new list');
     scores = {};
     scores[playerName] = this.score;
-  } else if (scores) {
-    scores[playerName] = this.score;
+    phsDOM.forEach((el) => (el.style.display = 'none'));
+    ahsDOM.forEach((el) => (el.style.display = 'none'));
   }
   // console.log(scor es);
   localStorage.setItem('scores', JSON.stringify(scores));

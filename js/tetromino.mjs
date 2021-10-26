@@ -63,7 +63,7 @@ class Tetromino {
           return newElement;
         })
       );
-      if (this.checkIfEmpty(newShape)) {
+      if (this.checkIfEmpty(newShape, 0, 0)) {
         this.shape = newShape;
       }
     }
