@@ -42,7 +42,6 @@ dd {
 
 /* Set core body defaults */
 body {
-  height: 100vh;
   width: 100vw;
   /* overflow: hidden; */
   scroll-behavior: smooth;
@@ -196,7 +195,6 @@ input:focus {
 
 body {
   width: 100vw;
-  height: 100vh;
   background: url('../img/rm251-mind-16.jpg') left top no-repeat;
   background-size: cover;
   font-family: 'Orbitron', sans-serif;
@@ -205,14 +203,15 @@ body {
 
 .container {
   width: 60%;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 2rem 5rem;
 }
 
 h1 {
-  font-size: 10rem;
+  font-size: 8rem;
   text-align: center;
 }
 
@@ -327,7 +326,7 @@ h2.ahs {
 
 @media only screen and (max-width: 768px) {
   .container h1 {
-    font-size: 5rem;
+    font-size: 4rem;
   }
   .game-container {
     flex-direction: column;
