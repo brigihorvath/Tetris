@@ -38,7 +38,14 @@ class ShapeFactory {
           [0, 1, 1],
           [1, 1, 0],
         ],
-        color: 'grey',
+        color: 'cadetblue',
+      },
+      7: {
+        shape: [
+          [0, 0, 1],
+          [1, 1, 1],
+        ],
+        color: 'plum',
       },
     }),
       (this.randomShape = this.randomShapeSelector());

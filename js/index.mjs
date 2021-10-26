@@ -80,8 +80,8 @@ function buildGameScreen() {
     if (event.code === 'Space') {
       game.tetromino.hardDrop();
     }
-    game.clearCanvas();
-    game.tetromino.draw();
+    // game.clearCanvas();
+    // game.tetromino.draw();
   };
 
   const moveTetrominoOnClick = function (event) {
@@ -102,8 +102,8 @@ function buildGameScreen() {
     if (targetedBtn.classList.contains('hard-drop')) {
       game.tetromino.hardDrop();
     }
-    game.clearCanvas();
-    game.tetromino.draw();
+    // game.clearCanvas();
+    // game.tetromino.draw();
   };
 
   ///////////////////
@@ -122,7 +122,8 @@ function buildGameScreen() {
   //   Needs to be fully resetted (clearcanvas)
   const resetButton = document.querySelector('.btn-reset');
   resetButton.addEventListener('click', () => {
-    game.resetGame();
+    // game.resetGame();
+    location.reload();
   });
 }
 
@@ -208,7 +209,8 @@ function buildGameOverScreen() {
   document.querySelector('.scores').textContent = 0;
   document.querySelector('.level').textContent = 1;
   const startButton = document.querySelector('.start-button');
-  startButton.addEventListener('click', buildGameScreen);
+  // startButton.addEventListener('click', buildGameScreen);
+  startButton.addEventListener('click', () => location.reload());
 }
 
 function buildScoreSection() {

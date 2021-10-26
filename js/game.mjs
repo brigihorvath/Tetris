@@ -26,7 +26,7 @@ class Game {
       this.clearCanvas();
       this.drawZeroArr();
       this.tetromino.draw();
-      if (!this.isPaused) {
+      if (!this.isPaused && !this.isGameOver) {
         // the tetrominos are accelerating downwards with the speed
         if (now - last >= this.speed) {
           last = now;
@@ -161,9 +161,9 @@ class Game {
   }
   // for the reset button we need to set the game over
   // because it needs to clear the canvas and stop the animationframe
-  resetGame() {
-    this.isGameOver = true;
-  }
+  // resetGame() {
+  //   this.isGameOver = true;
+  // }
 
   gameOver(callback) {
     this.onGameOver = callback;
