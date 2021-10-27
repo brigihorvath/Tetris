@@ -43,6 +43,7 @@ class Tetromino {
     });
   }
   rotate() {
+    console.table(this.zeroArr);
     // MY IDEA:
     // the x coordinate becomes the y coordinate
     // the new x coordinate will be: rowLength - 1 - y

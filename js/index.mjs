@@ -55,9 +55,6 @@ function buildGameScreen() {
   // console.table will show us the 2D array as a table
   // console.table(game.getZeroArray());
 
-  // I am passing the blocksize, because I want to do the game responsive
-  // I am not sure it is going to work
-  // Have to think it over in the design phase
   const game = new Game(canvasElement, blockSize);
   game.setScore(buildScoreSection);
   game.gameOver(buildGameOverScreen);

@@ -26,6 +26,7 @@ class Game {
       this.clearCanvas();
       this.drawZeroArr();
       this.tetromino.draw();
+      // console.log(this.tetromino);
       if (!this.isPaused && !this.isGameOver) {
         // the tetrominos are accelerating downwards with the speed
         if (now - last >= this.speed) {
@@ -50,12 +51,14 @@ class Game {
             this.tetromino.nextMoveRight
           )
             this.tetromino.x++;
+
           this.tetromino.draw();
           this.fillUpArray();
           this.setIsGameOver();
           this.clearCanvas();
           this.deleteFullRow();
           this.drawZeroArr();
+          this.tetromino = null;
           this.tetromino = new Tetromino(
             this.canvas,
             this.blockSize,
@@ -97,16 +100,17 @@ class Game {
   }
   // create the initial zero array
   getZeroArray() {
-    const emptyArr = [];
+    const emptyArray = [];
     // creation of a 2D array to check if the board's fields are taken
     for (let i = 0; i < this.rowCount; i++) {
-      let zeroArr = [];
+      let zeroArray = [];
       for (let z = 0; z < this.columnCount; z++) {
-        zeroArr.push(0);
+        zeroArray.push(0);
       }
-      emptyArr.push(zeroArr);
+      emptyArray.push(zeroArray);
     }
-    return emptyArr;
+    // this.zeroArr = emptyArray;
+    return emptyArray;
     // ANOTHER SOLUTION:
     // new Array(x) => x = how many elements the array should contain
     // fill(y) => what the elements will contain
