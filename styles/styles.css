@@ -254,6 +254,15 @@ h2 {
   width: 30%;
   margin-right: 2rem;
 }
+
+.audio-switch {
+  max-width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: 2rem;
+}
+
 .scores,
 .level,
 .highest-scoring-player,
@@ -321,6 +330,10 @@ h2.ahs {
 
   .container h1 {
     text-align: center;
+  }
+
+  .audio-switch {
+    display: none;
   }
 }
 
