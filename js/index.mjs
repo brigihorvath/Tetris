@@ -1,11 +1,11 @@
 import Game from './game.mjs';
 
+let playerName = '';
+
 function buildDom(html) {
   const overlay = document.querySelector('.overlay');
   overlay.innerHTML = html;
 }
-
-let playerName = '';
 
 function buildSplashScreen() {
   buildDom(`<div class="start">
@@ -54,10 +54,21 @@ function buildGameScreen() {
   ctx.scale(blockSize, blockSize);
   // console.table will show us the 2D array as a table
   // console.table(game.getZeroArray());
-
-  const game = new Game(canvasElement, blockSize);
+  let game = new Game(canvasElement, blockSize);
   game.setScore(buildScoreSection);
-  game.gameOver(buildGameOverScreen);
+  // pass a function to the game object
+  // it will store it in the onGameOver function
+  // and call it on reset or game over
+  game.gameOver(() => {
+    buildGameOverScreen.bind(game)();
+    // ez kell?????
+    // game.resetGame();
+    document.removeEventListener('keydown', moveTetromino);
+    faIcons.removeEventListener('click', moveTetrominoOnClick);
+    pauseButton.removeEventListener('click', () => {
+      game.pauseGame();
+    });
+  });
 
   game.startLoop();
 
@@ -119,12 +130,19 @@ function buildGameScreen() {
   //   Needs to be fully resetted (clearcanvas)
   const resetButton = document.querySelector('.btn-reset');
   resetButton.addEventListener('click', () => {
-    // game.resetGame();
-    location.reload();
+    game.resetGame();
+    // document.removeEventListener('keydown', moveTetromino);
+    // faIcons.removeEventListener('click', moveTetrominoOnClick);
+    // pauseButton.removeEventListener('click', () => {
+    //   game.pauseGame();
+    // });
+
+    // location.reload();
   });
 }
 
 function buildGameOverScreen() {
+  console.log(this);
   buildDom(`<div class="restart">
     <h1>GAME OVER</h1>
     <h2>Your points:</h2>
@@ -206,8 +224,8 @@ function buildGameOverScreen() {
   document.querySelector('.scores').textContent = 0;
   document.querySelector('.level').textContent = 1;
   const startButton = document.querySelector('.start-button');
-  // startButton.addEventListener('click', buildGameScreen);
-  startButton.addEventListener('click', () => location.reload());
+  startButton.addEventListener('click', buildGameScreen);
+  // startButton.addEventListener('click', () => location.reload());
 }
 
 function buildScoreSection() {

@@ -19,6 +19,7 @@ class Tetromino {
     this.nextMoveLeft = 0;
     this.nextMoveRight = 0;
     // this.isHardDropped = false;
+    this.timestamp = Date.now();
   }
 
   // we create here the random objects from the shapeFactory
@@ -44,6 +45,8 @@ class Tetromino {
   }
   rotate() {
     console.table(this.zeroArr);
+    console.log(this.x, this.y);
+    console.log(this.timestamp);
     // MY IDEA:
     // the x coordinate becomes the y coordinate
     // the new x coordinate will be: rowLength - 1 - y
@@ -226,6 +229,13 @@ class Tetromino {
     //   })
     // );
     // console.table(this.zeroArr);
+  }
+
+  reset() {
+    this.x = 3;
+    this.y = 0;
+    this.nextMoveLeft = 0;
+    this.nextMoveRight = 0;
   }
 }
 

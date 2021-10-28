@@ -13,7 +13,7 @@ class ShapeFactory {
           [1, 1],
           [1, 1],
         ],
-        color: 'yellow',
+        color: 'rgb(224, 193, 113)',
       },
       3: {
         shape: [
@@ -27,11 +27,11 @@ class ShapeFactory {
           [1, 1, 1],
           [0, 0, 1],
         ],
-        color: 'red',
+        color: '#c76b6b',
       },
       5: {
         shape: [[1, 1, 1, 1]],
-        color: 'green',
+        color: 'teal',
       },
       6: {
         shape: [
@@ -52,7 +52,7 @@ class ShapeFactory {
   }
 
   randomShapeSelector() {
-    const randomNum = Math.floor(Math.random() * 6) + 1;
+    const randomNum = Math.floor(Math.random() * 7) + 1;
     return this.shapes[randomNum];
   }
 }

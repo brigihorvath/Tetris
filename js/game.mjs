@@ -16,11 +16,14 @@ class Game {
     this.speed = 1000;
     this.levels = new Levels();
     this.level;
+    this.isReset = false;
   }
 
   startLoop() {
     let last = 0;
-    this.tetromino = new Tetromino(this.canvas, this.blockSize, this.zeroArr);
+    this.tetromino = this.tetromino
+      ? this.tetromino
+      : new Tetromino(this.canvas, this.blockSize, this.zeroArr);
     this.tetromino.setShapeAndColor();
     const loop = (now) => {
       this.clearCanvas();
@@ -58,12 +61,12 @@ class Game {
           this.clearCanvas();
           this.deleteFullRow();
           this.drawZeroArr();
-          this.tetromino = null;
-          this.tetromino = new Tetromino(
-            this.canvas,
-            this.blockSize,
-            this.zeroArr
-          );
+          // this.tetromino = new Tetromino(
+          //   this.canvas,
+          //   this.blockSize,
+          //   this.zeroArr
+          // );
+          this.tetromino.reset();
           this.tetromino.setShapeAndColor();
         }
       }
@@ -72,7 +75,6 @@ class Game {
         // this.tetromino = {};
         cancelAnimationFrame(this.animationLoopId);
         this.onGameOver();
-        return;
       }
       if (!this.isGameOver) {
         this.animationLoopId = window.requestAnimationFrame(loop);
@@ -165,9 +167,9 @@ class Game {
   }
   // for the reset button we need to set the game over
   // because it needs to clear the canvas and stop the animationframe
-  // resetGame() {
-  //   this.isGameOver = true;
-  // }
+  resetGame() {
+    this.isGameOver = true;
+  }
 
   gameOver(callback) {
     this.onGameOver = callback;
